@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src=javascripts/jquery.js></script>
+</head>
+<body>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #F7F7F7;
+            font-family: '微软雅黑';
+        }
+
+        form {
+            max-width: 640px;
+            width: 100%;
+            margin: 24px auto;
+            font-size: 28px;
+        }
+
+        label {
+            display: block;
+            margin: 10px 10px 15px;
+            font-size: 24px;
+        }
+
+        input {
+            display: block;
+            width: 100%;
+            height: 40px;
+            font-size: 22px;
+            margin-top: 10px;
+            padding: 6px 10px;
+            color: #333;
+            border: 1px solid #CCC;
+            box-sizing: border-box;
+        }
+
+        progress {
+            display: block;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .btn {
+            margin-top: 30px;
+        }
+
+        .btn input {
+            color: #FFF;
+            background-color: #08804d;
+            border: 0 none;
+            outline: none;
+            cursor: pointer;
+        }
+        .active{
+            background-color: green;
+            color: white;
+        }
+    </style>
+
+</head>
+
+<body>
+
+<form action="/register/zhuce" method="post" target="_self">
+    <fieldset>
+        <legend>用户注册</legend>
+        <label for="">
+            账号: <input autocomplete="off" id="username" type="text" name="username" required autofocus placeholder="请输入您的账号"/>
+        </label>
+        <p id="usernametips"></p>
+        <label for="">
+            密码: <input id="password1" type="password" name="password" required autofocus placeholder="请输入您的密码"/>
+        </label>
+        <p id="passwordtips"></p>
+        <label for="">
+            密码: <input id="password2" type="password" name="password" required autofocus placeholder="请输入您的密码"/>
+        </label>
+        <p id="passwordtips2"></p>
+
+        <!--<label for="">-->
+            <!--确认密码: <input type="text" id="password2" name="password" required autofocus placeholder="请输入您的密码"/>-->
+        <!--</label>-->
+        <!--<label for="">-->
+            <!--手机号码: <input type="tel" name="tel" pattern="1\d{10}"  placeholder="请输入您的手机号码"/>-->
+        <!--</label>-->
+
+        <!--<label for="">-->
+            <!--邮箱地址: <input type="email" name="email"   placeholder="请输入您的邮箱地址"/>-->
+        <!--</label>-->
+        <lable>
+            <input type="submit" id="submit" value="提交" disabled=true>
+        </lable>
+            <!--<input type="button" class="btn" id="submit" value="提交">-->
+    </fieldset>
+</form>
+
+</body>
+
+</html>
+<script>
+    $(function () {
+//        实时验证
+        $("#username").keyup(function () {
+            $.ajax({
+                type:"post",
+                url:'/register/test',
+                data:{username:$("#username").val()},
+                success:function (data) {
+                    $("#usernametips").html(data.content);
+                    if(!data.status){
+                        $("#submit").attr("disabled","false").removeClass("active");
+                    }else {
+                        $("#submit").removeAttr("disabled").addClass("active");
+                    }
+                }
+            })
+        });
+        $("#password1").keyup(function () {
+            if($("#password1").val().length<8){
+                $("#passwordtips").html("密码不能少于8位");
+                $("#submit").attr("disabled","false").removeClass("active");
+            }else {
+                $("#passwordtips").html("");
+                $("#submit").removeAttr("disabled").addClass("active");
+
+            }
+        });
+        $("#password2").keyup(function () {
+            if($("#password1").val()!=$("#password2").val()){
+                $("#passwordtips2").html("密码不一致");
+                $("#submit").attr("disabled","false").removeClass("active");
+            }else {
+                $("#passwordtips2").html("");
+                $("#submit").removeAttr("disabled").addClass("active");
+            }
+        })
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a href="register.html">注册</a>
+<a href="login.html">登录</a>
+<div id="app">
+    <!--<div v-for="item in list[0]">-->
+        <!--<img :src="item.src" alt="">-->
+    <!--</div>-->
+</div>
+<script src=vue.js></script>
+<script src=vue-resource.js></script>
+<script src=javascripts/jquery.js></script>
+<script>
+    var app=new Vue({
+        el:"#app",
+        data:{
+            list:[]
+        },
+        created:function () {
+            this.getProducts()
+        },
+        methods:{
+            getProducts:function () {
+                this.$http.get("/products/productsList",{params:{get:"success2"}}).then(function (res) {
+                    this.list.push(res.body);
+                    console.log(this.list);
+                },function (res) {
+                    console.log(res);
+                })
+            },
+            postProducts:function () {
+                this.$http.post("/products/productsList",{get:"success2"}).then(function (res) {
+                    console.log(res);
+                },function (res) {
+                console.log(res);
+            })
+            }
+        }
+    })
+
+</script>
+</body>
+</html>
